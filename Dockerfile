@@ -7,15 +7,15 @@ RUN apt update && apt install -y --no-install-recommends \
     xfce4-panel \
     xfce4-terminal \
     xfwm4 \
-    xorg \
     dbus-x11 \
     tigervnc-standalone-server \
     novnc \
     websockify \
-    firefox-esr \
-    ca-certificates \
-    curl \
     && apt clean && rm -rf /var/lib/apt/lists/*
+
+# FIX TIGERVNC MIGRATION ERROR
+RUN mkdir -p /root/.config/tigervnc && \
+    chmod -R 700 /root/.config
 
 # Setup VNC
 RUN mkdir -p /root/.vnc && \
