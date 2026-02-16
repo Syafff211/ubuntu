@@ -9,19 +9,20 @@ RUN apt update && apt install -y --no-install-recommends \
     xfwm4 \
     dbus-x11 \
     tigervnc-standalone-server \
+    tigervnc-common \
     novnc \
     websockify \
     && apt clean && rm -rf /var/lib/apt/lists/*
 
-# Fix tigervnc config path
+# Fix config path
 RUN mkdir -p /root/.config/tigervnc && chmod -R 700 /root/.config
 
-# Setup VNC password (WAJIB!)
+# Setup VNC password
 RUN mkdir -p /root/.vnc && \
-    echo "railway123" | vncpasswd -f > /root/.vnc/passwd && \
+    echo "railway123" | /usr/bin/vncpasswd -f > /root/.vnc/passwd && \
     chmod 600 /root/.vnc/passwd
 
-# Setup xstartup
+# xstartup
 RUN echo -e "#!/bin/bash\nunset SESSION_MANAGER\nunset DBUS_SESSION_BUS_ADDRESS\nexec startxfce4 &" > /root/.vnc/xstartup && \
     chmod +x /root/.vnc/xstartup
 
